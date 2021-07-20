@@ -1,0 +1,56 @@
+## MOVE THIS FILE to `.github/workflows/docker-build.yaml` TO EXECUTE IT
+
+# This is a basic workflow to help you get started with Actions
+
+name: Docker Build and Push
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      -
+      # Checkout Action to checkout our code so it will reference the existing code that we have with the latest commit
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+      # QEMU will the create the execution environment for our containers
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+      # Buildx will provide a more extensive interface to build our docker image
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+      # This will login into dockerhub using login-action@v1
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+        # This will reference the dockerhub login username and password. Remember to store the dockerhub username and password in github setting
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+      # This build and push our image using the build-push-action
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          # file: ../../../python-helloworld/Dockerfile
+          # targeted base image to run on linux machines
+          platforms: linux/amd64
+          # Set push to true if you like to push your image to dockerhub
+          push: true
+          tags: justmic007/python-helloworld:latest
