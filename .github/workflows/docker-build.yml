@@ -47,8 +47,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile
-          # file: ../../../python-helloworld/Dockerfile
+          # file: ./Dockerfile
+          file: ../../../python-helloworld/Dockerfile
           # targeted base image to run on linux machines
           platforms: linux/amd64
           # Set push to true if you like to push your image to dockerhub
