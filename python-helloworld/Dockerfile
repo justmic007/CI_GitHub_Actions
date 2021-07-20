@@ -1,8 +1,10 @@
 FROM python:3.8
 LABEL maintainer="Micah Joel"
 
-COPY . /app
 WORKDIR /app
+
+COPY . /app
+
 RUN pip install -r ./python-helloworld/requirements.txt
 
 # command to run on container start
