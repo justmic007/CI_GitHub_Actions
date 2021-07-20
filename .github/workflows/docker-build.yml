@@ -43,8 +43,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
       # This build and push our image using the build-push-action
-        name: Build and push
-        uses: docker/build-push-action@v2
+        name: Build and push Docker images
+        uses: docker/build-push-action@v2.6.1
         with:
           context: .
           file: ./Dockerfile
